@@ -22,16 +22,13 @@ y_test = test['is_anomaly']
 exog_train = train[columns]
 exog_test = test[columns]
 
-# model = CatBoostRegressor()
-# model.fit(exog_train, y_train)
+model = CatBoostRegressor()
+model.fit(exog_train, y_train)
+predict = model.predict(exog_test)
 
-# predict = model.predict(exog_test)
-
-model = SARIMAX(y_train, exog=exog_train, order=(0, 1, 1), seasonal_order=(1, 1, 1, 12))
-results = model.fit()
-
-
-predict = results.forecast(steps=len(y_test), exog=exog_test)
+# model = SARIMAX(y_train, exog=exog_train, order=(0, 1, 1), seasonal_order=(1, 1, 1, 12))
+# results = model.fit()
+# predict = results.forecast(steps=len(y_test), exog=exog_test)
 
 mse = mean_squared_error(y_test, predict)
 print(f'Mean Squared Error: {mse}')
@@ -44,5 +41,5 @@ plt.title('Actual vs. Predicted Values')
 plt.xlabel('Date')
 plt.ylabel('Target Variable')
 plt.legend()
-plt.text(y_test.index[0], max(y_test), f'Mean Squared Error: {mse}', fontsize=12, color='red')
+plt.text(y_test.index[0], max(y_test), f'MSE: {round(mse, 5)}', fontsize=30, color='red')
 plt.show()
